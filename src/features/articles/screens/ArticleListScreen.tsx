@@ -29,6 +29,7 @@ import {
   AppText,
 } from '@/shared/components/ui';
 import { useAppTheme } from '@/shared/theme/ThemeContext';
+import { formatRelativeTime } from '@/features/articles/utils/formatRelativeTime';
 
 type Props = NativeStackScreenProps<ArticlesStackParamList, 'ArticleList'>;
 
@@ -51,9 +52,15 @@ export function ArticleListScreen({ navigation }: Props) {
   const { colors } = useAppTheme();
 
   const flatListRef = useRef<FlatList<HnStory>>(null);
-  const { items, status, error, listSort, listScrollOffset } = useAppSelector(
-    state => state.articles,
-  );
+  const {
+    items,
+    status,
+    error,
+    listSort,
+    listScrollOffset,
+    showingStaleCache,
+    staleCacheSavedAtMs,
+  } = useAppSelector(state => state.articles);
 
   const [searchText, setSearchText] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -72,6 +79,14 @@ export function ArticleListScreen({ navigation }: Props) {
     () => sortedItems.filter(s => storyMatchesSearch(s, debouncedSearch)),
     [sortedItems, debouncedSearch],
   );
+
+  const staleCacheNotice = useMemo(() => {
+    if (!showingStaleCache || staleCacheSavedAtMs == null) {
+      return null;
+    }
+    const when = formatRelativeTime(Math.floor(staleCacheSavedAtMs / 1000));
+    return `Could not refresh the feed. Showing saved stories from ${when}. Pull to refresh to try again.`;
+  }, [showingStaleCache, staleCacheSavedAtMs]);
 
   const onSortChange = useCallback(
     (sort: ArticleListSort) => {
@@ -155,6 +170,24 @@ export function ArticleListScreen({ navigation }: Props) {
     <AppScreen edges={['left', 'right', 'bottom']}>
       <View style={{ flex: 1 }}>
         <View style={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
+          {staleCacheNotice != null ? (
+            <View
+              style={{
+                marginBottom: 10,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                borderRadius: 10,
+                backgroundColor: colors.offlineBanner,
+                borderWidth: 1,
+                borderColor: colors.border,
+              }}
+              accessibilityRole="alert"
+            >
+              <AppText variant="caption" style={{ color: colors.offlineBannerText }}>
+                {staleCacheNotice}
+              </AppText>
+            </View>
+          ) : null}
           <TextInput
             value={searchText}
             onChangeText={setSearchText}
