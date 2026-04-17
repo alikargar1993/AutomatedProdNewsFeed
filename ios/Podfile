@@ -30,5 +30,27 @@ target 'AutomatedProsNewsFeed' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # RNGestureHandler (and some other pods) import React headers from a framework
+    # context; Clang otherwise errors with "non-modular include in framework module".
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_config|
+        build_config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+
+        # react-native-mmkv sets FORCE_POSIX on Apple, so MMKV defaults to MMKV_EMBED_ZLIB=0 and
+        # expects crc32 from libz without declaring s.libraries = 'z' — linker error _crc32.
+        # Use the vendored zlib implementation (same as MMKV's CMake build).
+        if target.name == 'react-native-mmkv'
+          defs = build_config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']
+          unless defs.to_s.include?('MMKV_EMBED_ZLIB')
+            base = defs.nil? || defs.to_s.strip.empty? ? '$(inherited)' : defs.to_s
+            build_config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = "#{base} MMKV_EMBED_ZLIB=1"
+          end
+        end
+      end
+    end
   end
 end
+
+
+
