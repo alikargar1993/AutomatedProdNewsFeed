@@ -1,98 +1,59 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# AutomatedProsNewsFeed
 
-# Getting Started
+React Native app that shows Hacker News top stories, article details, bookmarks, and basic offline handling.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 1. Requirements
 
-## Step 1: Start Metro
+- **Node.js** `>= 22.11.0` (see `package.json` `engines`)
+- **Yarn** for JavaScript dependencies
+- **React Native development environment** for your target platform:
+  - Follow the official guide: [Set up your environment](https://reactnative.dev/docs/set-up-your-environment) (Xcode and CocoaPods for iOS, Android Studio / SDK and JDK for Android)
+- **iOS only:** Ruby **Bundler** and **CocoaPods** (via `bundle install` / `bundle exec pod install` in `ios/`)
+- **Network:** the app loads data from the [Hacker News Firebase API](https://github.com/HackerNews/API) (`https://hacker-news.firebaseio.com/v0/`)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 2. Installation
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+From the project root:
 
-```sh
-# Using npm
-npm start
+1. **Install JavaScript dependencies**
 
-# OR using Yarn
-yarn start
-```
+   ```sh
+   yarn install
+   ```
 
-## Step 2: Build and run your app
+2. **iOS native dependencies** (first clone or whenever native deps change)
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+   ```sh
+   cd ios && bundle install && bundle exec pod install && cd ..
+   ```
 
-### Android
+3. **Start Metro** (JavaScript bundler)
 
-```sh
-# Using npm
-npm run android
+   ```sh
+   yarn start
+   ```
 
-# OR using Yarn
-yarn android
-```
+4. **Run the app** (with Metro running, in another terminal)
 
-### iOS
+   ```sh
+   yarn ios
+   # or
+   yarn android
+   ```
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Other scripts: `yarn lint`, `yarn test`.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## 3. App features (and libraries)
 
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-# AutomatedProdNewsFeed
+| Feature | What it does | Library |
+| --- | --- | --- |
+| **Top stories list** | Fetches top story IDs and story payloads from the Hacker News API, shows a scrollable list with loading and error states. | **axios** (HTTP client), **@reduxjs/toolkit** + **react-redux** (fetch orchestration and list state) |
+| **Sort stories** | Toggles ordering by score or by time for the loaded batch. | **@reduxjs/toolkit** (slice state; no extra UI library) |
+| **Article detail** | Opens a story from the stack; can load a missing item by ID; open in browser / share via system APIs. | **@react-navigation/native-stack** (stack screen + types), **@reduxjs/toolkit** (`loadStoryById`), **axios** (item fetch) |
+| **Bookmarks** | Save or remove bookmarked story IDs; list bookmarked items in a separate tab. | **@reduxjs/toolkit** + **react-redux** (bookmark state), **react-native-mmkv** (persisted ID list) |
+| **Cached articles** | After a successful fetch, caches the story batch to disk; on network failure, can show the last cached list as stale. | **react-native-mmkv** (JSON cache), **@reduxjs/toolkit** (`loadArticles` fallback) |
+| **Tab + stack navigation** | Bottom tabs for “Stories” vs “Bookmarks”; nested stack for list → detail inside the stories tab. | **@react-navigation/native**, **@react-navigation/bottom-tabs**, **@react-navigation/native-stack**, **react-native-screens** (native stack backing), **react-native-safe-area-context** (safe areas in layout) |
+| **Offline banner** | Shows a banner when the device has no connection or the internet is unreachable. | **@react-native-community/netinfo**, **react-native-safe-area-context** (padding under status bar) |
+| **Light / dark theme** | Follows system appearance or a stored preference (light / dark / system). | **react-native** `useColorScheme`, **react-native-mmkv** (persisted preference), **@react-navigation/native** themes for navigation chrome |
+| **Icons (home, bookmark, etc.)** | Vector tab and header icons tinted by theme. | **react-native-svg** |
+| **App shell** | Root providers so navigation, gestures, Redux, and safe areas work together. | **react-native-gesture-handler** (`GestureHandlerRootView`; expected by React Navigation), **react-redux** `Provider`, **react-native-safe-area-context** `SafeAreaProvider` |
