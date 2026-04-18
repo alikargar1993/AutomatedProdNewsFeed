@@ -2,7 +2,7 @@
 
 React Native app that shows Hacker News top stories, article details, bookmarks, and basic offline handling.
 
-## Screenshots & GIFs
+## Screenshots
 
 iOS Simulator captures from the project (`screenshots/`).
 
@@ -14,9 +14,9 @@ iOS Simulator captures from the project (`screenshots/`).
 | :---: | :---: |
 | ![Article screen with metadata and URL](screenshots/article-detail.png) | ![Bookmarks tab with saved story](screenshots/bookmarks.png) |
 
-| Offline: cached feed + banners | Development (Fast Refresh / debugger) |
+| Offline: cached feed + banners |
 | :---: | :---: |
-| ![Offline banner and stale feed message](screenshots/offline-cached-feed.png) | ![Stories list with dev overlays](screenshots/stories-dev-session.png) |
+| ![Offline banner and stale feed message](screenshots/offline-cached-feed.png) |
 
 Optional: add `screenshots/demo.gif` and embed it here for a short walkthrough recording.
 
