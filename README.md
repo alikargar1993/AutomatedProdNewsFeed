@@ -4,13 +4,21 @@ React Native app that shows Hacker News top stories, article details, bookmarks,
 
 ## Screenshots & GIFs
 
-Add screenshots and demo GIFs under `screenshots/` (or any path you prefer) and update the links below.
+iOS Simulator captures from the project (`screenshots/`).
 
-| | |
+| Top stories (sort by score) | Top stories (sort by time) |
 | :---: | :---: |
-| ![Stories / home — replace caption and path](screenshots/home.png) | ![Article or bookmarks — replace caption and path](screenshots/detail.png) |
+| ![Top stories list with Score sort selected](screenshots/stories-score-sort.png) | ![Top stories list with Time sort selected](screenshots/stories-time-sort.png) |
 
-![App walkthrough — replace caption and path](screenshots/demo.gif)
+| Article detail | Bookmarks |
+| :---: | :---: |
+| ![Article screen with metadata and URL](screenshots/article-detail.png) | ![Bookmarks tab with saved story](screenshots/bookmarks.png) |
+
+| Offline: cached feed + banners | Development (Fast Refresh / debugger) |
+| :---: | :---: |
+| ![Offline banner and stale feed message](screenshots/offline-cached-feed.png) | ![Stories list with dev overlays](screenshots/stories-dev-session.png) |
+
+Optional: add `screenshots/demo.gif` and embed it here for a short walkthrough recording.
 
 ## 1. Requirements
 
