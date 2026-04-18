@@ -1,10 +1,14 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { mmkvStorage } from '@/shared/storage/mmkv';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
+import { getStorageItem, setStorageItem } from '@/shared/storage/appStorage';
 
 const STORAGE_KEY = 'bookmarked_article_ids';
 
-function readIds(): number[] {
-  const raw = mmkvStorage.getString(STORAGE_KEY);
+async function readIds(): Promise<number[]> {
+  const raw = await getStorageItem(STORAGE_KEY);
   if (!raw) {
     return [];
   }
@@ -21,16 +25,21 @@ function readIds(): number[] {
   }
 }
 
-function writeIds(ids: number[]) {
-  mmkvStorage.set(STORAGE_KEY, JSON.stringify(ids));
+export async function persistBookmarkIds(ids: number[]): Promise<void> {
+  await setStorageItem(STORAGE_KEY, JSON.stringify(ids));
 }
+
+export const hydrateBookmarks = createAsyncThunk(
+  'bookmarks/hydrate',
+  async () => readIds(),
+);
 
 type BookmarksState = {
   ids: number[];
 };
 
 const initialState: BookmarksState = {
-  ids: readIds(),
+  ids: [],
 };
 
 const bookmarksSlice = createSlice({
@@ -45,8 +54,12 @@ const bookmarksSlice = createSlice({
       } else {
         state.ids.push(id);
       }
-      writeIds(state.ids);
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(hydrateBookmarks.fulfilled, (state, action) => {
+      state.ids = action.payload;
+    });
   },
 });
 

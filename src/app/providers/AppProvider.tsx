@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from '@/app/navigation/RootNavigator';
 import { OfflineBanner } from '@/shared/components/OfflineBanner';
-import { store } from '@/shared/store';
+import { hydrateBookmarks } from '@/features/bookmarks/store/bookmarksSlice';
+import { store, type AppDispatch } from '@/shared/store';
 import { ThemeProvider, useAppTheme } from '@/shared/theme/ThemeContext';
 
 function ThemedStatusBar() {
@@ -30,6 +31,14 @@ function ThemedApp() {
   );
 }
 
+function BookmarksBootstrap() {
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    void dispatch(hydrateBookmarks());
+  }, [dispatch]);
+  return null;
+}
+
 const providerStyles = StyleSheet.create({
   gestureRoot: { flex: 1 },
 });
@@ -38,6 +47,7 @@ export function AppProvider() {
   return (
     <GestureHandlerRootView style={providerStyles.gestureRoot}>
       <Provider store={store}>
+        <BookmarksBootstrap />
         <ThemeProvider>
           <SafeAreaProvider>
             <ThemedApp />

@@ -23,11 +23,11 @@ export const loadArticles = createAsyncThunk<
 >('articles/loadArticles', async (_, { rejectWithValue }) => {
   try {
     const stories = await fetchTopStoriesBatch();
-    writeArticlesCache(stories);
+    await writeArticlesCache(stories);
     return { stories, fromCache: false as const };
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Failed to load articles';
-    const cached = readArticlesCache();
+    const cached = await readArticlesCache();
     if (cached && cached.stories.length > 0) {
       return {
         stories: cached.stories,

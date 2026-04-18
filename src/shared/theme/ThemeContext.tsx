@@ -2,11 +2,12 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useColorScheme } from 'react-native';
-import { mmkvStorage } from '@/shared/storage/mmkv';
+import { getStorageItem, setStorageItem } from '@/shared/storage/appStorage';
 import { darkColors, lightColors, type ColorPalette } from '@/shared/theme/colors';
 
 const THEME_KEY = 'theme_preference';
@@ -23,8 +24,7 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function readPreference(): ThemePreference {
-  const stored = mmkvStorage.getString(THEME_KEY);
+function parsePreference(stored: string | null): ThemePreference {
   if (stored === 'light' || stored === 'dark' || stored === 'system') {
     return stored;
   }
@@ -34,18 +34,33 @@ function readPreference(): ThemePreference {
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const systemScheme = useColorScheme();
   const [preference, setPreferenceState] =
-    useState<ThemePreference>(readPreference);
+    useState<ThemePreference>('system');
+
+  useEffect(() => {
+    let cancelled = false;
+    void getStorageItem(THEME_KEY).then(stored => {
+      if (!cancelled) {
+        setPreferenceState(parsePreference(stored));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const setPreference = useCallback((value: ThemePreference) => {
     setPreferenceState(value);
-    mmkvStorage.set(THEME_KEY, value);
+    void setStorageItem(THEME_KEY, value);
   }, []);
 
   const cyclePreference = useCallback(() => {
     const order: ThemePreference[] = ['system', 'light', 'dark'];
-    const next = order[(order.indexOf(preference) + 1) % order.length];
-    setPreference(next);
-  }, [preference, setPreference]);
+    setPreferenceState(prev => {
+      const next = order[(order.indexOf(prev) + 1) % order.length];
+      void setStorageItem(THEME_KEY, next);
+      return next;
+    });
+  }, []);
 
   const isDark =
     preference === 'dark' ||

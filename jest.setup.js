@@ -14,13 +14,6 @@ jest.mock('@react-native-community/netinfo', () => ({
   },
 }));
 
-jest.mock('react-native-mmkv', () => ({
-  MMKV: jest.fn().mockImplementation(() => ({
-    getString: jest.fn(),
-    set: jest.fn(),
-    contains: jest.fn(),
-    delete: jest.fn(),
-    getAllKeys: jest.fn(() => []),
-    clearAll: jest.fn(),
-  })),
-}));
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
+);

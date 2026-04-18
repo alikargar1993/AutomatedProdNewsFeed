@@ -1,0 +1,25 @@
+diff --git a/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake b/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
+index baa0fef..ecd2f4f 100644
+--- a/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
++++ b/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
+@@ -31,11 +31,15 @@ if(CCACHE_FOUND)
+   set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+ endif(CCACHE_FOUND)
+ 
+-# If the user toolchain supports IPO, we enable it for the app build
+-include(CheckIPOSupported)
+-check_ipo_supported(RESULT IPO_SUPPORT)
+-if (IPO_SUPPORT)
+-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
++# If the user toolchain supports IPO, we enable it for the app build.
++# Skip on Android: CMake's IPO probe uses -fuse-ld=gold, which NDK r26+ Clang
++# rejects ("invalid linker name"), so configure can fail or behave inconsistently.
++if(NOT ANDROID)
++  include(CheckIPOSupported)
++  check_ipo_supported(RESULT IPO_SUPPORT)
++  if (IPO_SUPPORT)
++    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
++  endif()
+ endif()
+ 
+ set(BUILD_DIR ${PROJECT_BUILD_DIR})

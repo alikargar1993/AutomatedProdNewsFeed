@@ -1362,28 +1362,6 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-  - react-native-mmkv (3.2.0):
-    - hermes-engine
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-Core-prebuilt
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - ReactNativeDependencies
-    - Yoga
   - react-native-netinfo (12.0.1):
     - hermes-engine
     - RCTRequired
@@ -1860,6 +1838,28 @@ PODS:
     - React-utils (= 0.85.1)
     - ReactNativeDependencies
   - ReactNativeDependencies (0.85.1)
+  - RNCAsyncStorage (2.2.0):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - RNGestureHandler (2.31.1):
     - hermes-engine
     - RCTRequired
@@ -2016,7 +2016,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -2053,6 +2052,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios/ReactCodegen`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -2136,8 +2136,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
-  react-native-mmkv:
-    :path: "../node_modules/react-native-mmkv"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -2210,6 +2208,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeDependencies:
     :podspec: "../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -2258,7 +2258,6 @@ SPEC CHECKSUMS:
   React-logger: 906faf87e9aeb8676b2243f490bb4e10cec4b6fc
   React-Mapbuffer: 2bb410418bfb328f22949227f7e95773757c0dc9
   React-microtasksnativemodule: 613449e4279f5ec223b2cc327483191c092a6a41
-  react-native-mmkv: cdd2a65977546ea1ff8d349c593d754879147a83
   react-native-netinfo: 723f91aea0c7b4a8701bc1ede8fc162c8b1cf282
   react-native-safe-area-context: a2325922b8594ddd27f98fb13437aec126be2502
   React-NativeModulesApple: 45937c331fdba17eda34a57eae0b5700916c5a94
@@ -2295,11 +2294,12 @@ SPEC CHECKSUMS:
   ReactCodegen: 2aa2e0493cb60ed0e2e975cdf26cadac70162638
   ReactCommon: 1e1d77586465d0eda97da8d04ef528cb764db4b6
   ReactNativeDependencies: 9ccf355dad023d567e19176e86dc691dcbdfdee8
+  RNCAsyncStorage: 0f84413588571e74ef9cff6e3b669346e3abf9cb
   RNGestureHandler: 8f110d136971c0d720c3fe78dc352ccfce1cde9c
   RNScreens: 63cc2156368ac1a8239e9131103c2fef901fc381
   RNSVG: d49e9b043822ac92430dd37fa1d7031aa80911b9
   Yoga: 2e5b12bb8c2f5ad748e7432ba14a4a3c66279050
 
-PODFILE CHECKSUM: b084d68bd787eb840899c8854a2ec727cdeac4c8
+PODFILE CHECKSUM: 208a40d8947c5c86b6dbb4f6922a98f8434dac23
 
 COCOAPODS: 1.16.2

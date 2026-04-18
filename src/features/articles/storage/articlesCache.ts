@@ -1,4 +1,4 @@
-import { mmkvStorage } from '@/shared/storage/mmkv';
+import { getStorageItem, setStorageItem } from '@/shared/storage/appStorage';
 import type { HnStory } from '@/features/articles/types/hnApi.types';
 
 const STORAGE_KEY = 'articles_top_stories_cache_v1';
@@ -23,8 +23,8 @@ function isHnStory(value: unknown): value is HnStory {
   );
 }
 
-export function readArticlesCache(): ArticlesCacheEntry | null {
-  const raw = mmkvStorage.getString(STORAGE_KEY);
+export async function readArticlesCache(): Promise<ArticlesCacheEntry | null> {
+  const raw = await getStorageItem(STORAGE_KEY);
   if (!raw) {
     return null;
   }
@@ -49,10 +49,10 @@ export function readArticlesCache(): ArticlesCacheEntry | null {
   }
 }
 
-export function writeArticlesCache(stories: HnStory[]): void {
+export async function writeArticlesCache(stories: HnStory[]): Promise<void> {
   const entry: ArticlesCacheEntry = {
     stories,
     savedAtMs: Date.now(),
   };
-  mmkvStorage.set(STORAGE_KEY, JSON.stringify(entry));
+  await setStorageItem(STORAGE_KEY, JSON.stringify(entry));
 }
