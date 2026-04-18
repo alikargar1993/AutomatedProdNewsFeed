@@ -14,8 +14,8 @@ iOS Simulator captures from the project (`screenshots/`).
 | :---: | :---: |
 | ![Article screen with metadata and URL](screenshots/article-detail.png) | ![Bookmarks tab with saved story](screenshots/bookmarks.png) |
 
-| Offline: cached feed + banners |
-| :---: | :---: |
+| Offline: cached | feed + banners |
+| :---: |
 | ![Offline banner and stale feed message](screenshots/offline-cached-feed.png) |
 
 Optional: add `screenshots/demo.gif` and embed it here for a short walkthrough recording.
