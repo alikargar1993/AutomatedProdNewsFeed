@@ -1,16 +1,17 @@
 {
-  "name": "AutomatedProsNewsFeed",
+  "name": "ApNews",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
+    "postinstall": "patch-package",
     "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-community/netinfo": "^12.0.1",
+    "@react-native-community/netinfo": "12.0.1",
     "@react-native/new-app-screen": "0.85.1",
     "@react-navigation/bottom-tabs": "^7.15.9",
     "@react-navigation/native": "^7.2.2",
@@ -44,6 +45,7 @@
     "babel-plugin-module-resolver": "^5.0.3",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "patch-package": "^8.0.0",
     "prettier": "2.8.8",
     "react-native-svg-transformer": "^1.5.3",
     "react-test-renderer": "19.2.3",

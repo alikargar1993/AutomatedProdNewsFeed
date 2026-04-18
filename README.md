@@ -2,6 +2,16 @@
 
 React Native app that shows Hacker News top stories, article details, bookmarks, and basic offline handling.
 
+## Screenshots & GIFs
+
+Add screenshots and demo GIFs under `screenshots/` (or any path you prefer) and update the links below.
+
+| | |
+| :---: | :---: |
+| ![Stories / home — replace caption and path](screenshots/home.png) | ![Article or bookmarks — replace caption and path](screenshots/detail.png) |
+
+![App walkthrough — replace caption and path](screenshots/demo.gif)
+
 ## 1. Requirements
 
 - **Node.js** `>= 22.11.0` (see `package.json` `engines`)
