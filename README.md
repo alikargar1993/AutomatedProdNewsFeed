@@ -65,9 +65,31 @@ From the project root:
    yarn android
    ```
 
-Other scripts: `yarn lint`, `yarn test`.
+Other scripts: `yarn lint`, `yarn test` (see [Tests](#3-tests) below).
 
-## 3. App features (and libraries)
+## 3. Tests
+
+The project uses **[Jest](https://jestjs.io/)** with the React Native preset (`@react-native/jest-preset`). Shared test setup lives in `jest.setup.js` (for example mocks for NetInfo and AsyncStorage).
+
+| Suite | File | What it covers |
+| ----- | ---- | ---------------- |
+| **Business logic** | `__tests__/sortStories.test.ts` | Pure list sorting (`sortStories` in the articles slice): order by score vs. by time. |
+| **Component interaction** | `__tests__/ArticleListSortToggle.interaction.test.tsx` | **[React Native Testing Library](https://callstack.github.io/react-native-testing-library/)** (`@testing-library/react-native`): user presses the sort toggle and `onChange` is called with the expected mode. |
+| **Smoke** | `__tests__/App.test.tsx` | Root `App` renders without throwing (via `react-test-renderer`). |
+
+Run all tests from the repo root:
+
+```sh
+yarn test
+```
+
+In environments where Watchman is unavailable (some CI sandboxes), use:
+
+```sh
+CI=true yarn test --watchman=false
+```
+
+## 4. App features (and libraries)
 
 | Feature                          | What it does                                                                                                              | Library                                                                                                                                                                                                         |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -82,7 +104,7 @@ Other scripts: `yarn lint`, `yarn test`.
 | **Icons (home, bookmark, etc.)** | Vector tab and header icons tinted by theme.                                                                              | **react-native-svg**                                                                                                                                                                                            |
 | **App shell**                    | Root providers so navigation, gestures, Redux, and safe areas work together.                                              | **react-native-gesture-handler** (`GestureHandlerRootView`; expected by React Navigation), **react-redux** `Provider`, **react-native-safe-area-context** `SafeAreaProvider`                                    |
 
-## 4. Technical interview responses
+## 5. Technical interview responses
 
 Short answers we can unpack in the interview.
 
