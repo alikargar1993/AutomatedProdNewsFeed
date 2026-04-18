@@ -20,6 +20,12 @@ iOS Simulator captures from the project (`screenshots/`).
 
 Optional: add `screenshots/demo.gif` and embed it here for a short walkthrough recording.
 
+## Project structure
+
+The repository uses a **feature-based** structure: code is grouped around product capabilities (for example, stories and bookmarks) so related UI, state, and utilities live together instead of being split only by technical layer.
+
+**Persistence:** the app uses **AsyncStorage** for stored data (see the features table below). **MMKV** was not adopted because integrating it on Android ran into implementation issues and time was limited; AsyncStorage was sufficient for this project’s scope.
+
 ## 1. Requirements
 
 - **Node.js** `>= 22.11.0` (see `package.json` `engines`)
